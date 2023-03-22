@@ -1,0 +1,140 @@
+ - type: "horizontal-stack"
+            cards:
+              - type: "vertical-stack"
+                template: edge
+                cards:
+                  - type: horizontal-stack
+                    cards:
+                      - card:
+                          entity: alarm_control_panel.coordinator_alarm
+                          name: Alarm
+                          states:
+                            - arm_home
+                            - arm_away
+                          style:
+                            .: |
+                              ha-card{
+                                margin-left: 6px;
+                                margin-right: 6px;
+                              }
+                              ha-card > ha-label-badge{
+                                --alarm-state-color: var(--google-green-500) !important;
+                              }
+                              ha-card{
+                                padding-top: 16px;
+                                padding-bottom: 12px !important;
+                                border-radius: 21px;
+                              }
+                              ha-card > h1{
+                                padding-top: 40;
+                                color: var(--google-green-500) !important;
+                              }
+                              ha-card > h1::before{
+                                content: "";
+                                margin: 0 0 0 -50%;
+                                color: var(--google-green-500);
+                                font-variant: small-caps;
+                              }
+                              #alarmCode{
+                                display: none;
+                              }
+                              #keypad{
+                                display: none !important;
+                              }
+                            "#armActions":
+                              mwc-button:nth-child(1):
+                                $: |
+                                  #button > span.slot-container{
+                                    color: transparent;
+                                    position: absolute;
+
+                                  }
+                                  #button{
+                                    width: 200px;
+                                    border-radius: 21px;
+                                  }
+
+                                  #button > span.slot-container::before{
+                                    color: var(--mdc-theme-primary, #6200ee);
+                                    content: "Arm Home";
+                                    margin: 0 -50% 0 0;
+                                  }
+                              mwc-button:nth-child(2):
+                                $: |
+                                  #button > span.slot-container{
+                                    color: transparent;
+                                    position: static;
+
+                                  }
+                                  #button{
+                                    width: 200px;
+                                    border-radius: 21px;
+                                  }
+
+                                  #button > span.slot-container::before{
+                                    color: var(--mdc-theme-primary, #6200ee);
+                                    content: "Arm Away";
+                                    margin: 0 -50% 0 0;
+                                  }
+                          title: Alarm
+                          type: alarm-panel
+                        conditions:
+                          - entity: alarm_control_panel.coordinator_alarm
+                            state: disarmed
+                        type: conditional
+                      - card:
+                          entity: alarm_control_panel.coordinator_alarm
+                          states:
+                            - arm_home
+                          title: Alarm
+                          type: alarm-panel
+                          style:
+                            .: |
+                              ha-card{
+                                margin-left: 6px;
+                                margin-right: 6px;
+                              }
+                              ha-card > ha-label-badge{
+                                --alarm-state-color: var(--google-red-500) !important;
+                              }
+                              ha-card{
+                                padding-top: 16px;
+                                padding-bottom: 12px !important;
+                                border-radius: 21px;
+                              }
+                              ha-card > h1{
+                                padding-top: 0;
+                                color: transparent;
+                              }
+                              ha-card > h1::before{
+                                content: "Enabled";
+                                color: var(--google-red-500);
+                                position: absolute;
+                                font-variant: small-caps;
+                              }
+                            "#armActions":
+                              mwc-button:
+                                $: |
+                                  #button > span.slot-container{
+                                    color: transparent;
+                                    position: absolute;
+                                  }
+                                  #button{
+                                    width: 150px;
+                                    border-radius: 21px;
+                                  }
+                                  #button > span.slot-container::before{
+                                    color: var(--mdc-theme-primary, #6200ee);
+                                    content: "Disable";
+                                    margin: 0 0 0 50%;
+                                  }
+                            "#keypad":
+                              mwc-button:
+                                $: |
+                                  #button{
+                                    border-radius: 12px
+                                  }
+                        conditions:
+                          - entity: alarm_control_panel.coordinator_alarm
+                            state_not: disarmed
+                        type: conditional
